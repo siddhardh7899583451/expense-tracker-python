@@ -24,6 +24,7 @@ A command-line expense management application built using Python.
 
 ## Project Structure
 
+```text
 expense_tracker/
 │
 ├── cli.py          # User interface
@@ -34,14 +35,12 @@ expense_tracker/
 ├── display.py      # Table formatting
 └── constants.py    # Menu constants
 
-
 tests/
 ├── test_manager.py
 ├── test_summary.py
 ├── test_update.py
 ├── test_display.py
 └── test_validators.py
-
 
 screenshots/
 │
@@ -50,11 +49,3 @@ screenshots/
 ├── view_expenses.png
 ├── monthly_summary.png
 └── edit_delete.png
-
-
-## Running the Project
-
-Create virtual environment:
-
-```bash
-python -m venv .venv
