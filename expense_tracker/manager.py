@@ -20,3 +20,23 @@ class ExpenseManager:
 
     def get_all_expenses(self):
         return self.storage.load()
+
+    def search_by_title(self, keyword: str):
+        """Search expenses by title (case-insensitive)."""
+        keyword = keyword.lower()
+
+        return [
+            expense
+            for expense in self.get_all_expenses()
+            if keyword in expense.title.lower()
+        ]
+
+    def search_by_category(self, category: str):
+        """Search expenses by category (case-insensitive)."""
+        category = category.lower()
+
+        return [
+            expense
+            for expense in self.get_all_expenses()
+            if category in expense.category.lower()
+        ]

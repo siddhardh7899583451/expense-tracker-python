@@ -48,7 +48,35 @@ def run():
             print()
 
         elif choice == "3":
-            print("\nSearch Expenses selected.\n")
+            print("\nSearch Expenses\n")
+
+            print("1. Search by Title")
+            print("2. Search by Category")
+
+            option = input("Choose option: ").strip()
+
+            if option == "1":
+                keyword = input("Enter title keyword: ")
+                results = manager.search_by_title(keyword)
+
+            elif option == "2":
+                keyword = input("Enter category: ")
+                results = manager.search_by_category(keyword)
+
+            else:
+                print("\nInvalid option.\n")
+                continue
+
+            print()
+
+            if not results:
+                print("No matching expenses found.\n")
+                continue
+
+            for expense in results:
+                print(expense)
+
+            print()
 
         elif choice == "4":
             print("\nDelete Expense selected.\n")
