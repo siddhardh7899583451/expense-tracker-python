@@ -43,6 +43,15 @@ tests/
 └── test_validators.py
 
 
+screenshots/
+│
+├── menu.png
+├── add_expense.png
+├── view_expenses.png
+├── monthly_summary.png
+└── edit_delete.png
+
+
 ## Running the Project
 
 Create virtual environment:
