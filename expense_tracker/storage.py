@@ -29,6 +29,23 @@ class CSVStorage:
                 ]
             )
 
+    def save_all(self, expenses):
+        """Overwrite the CSV file with the updated list of expenses."""
+        with open(self.file, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(["expense_id", "title", "amount", "category", "date"])
+
+            for expense in expenses:
+                writer.writerow(
+                    [
+                        expense.expense_id,
+                        expense.title,
+                        expense.amount,
+                        expense.category,
+                        expense.date,
+                    ]
+                )
+
     def load(self):
         # Return empty list if file doesn't exist or is empty
         if not self.file.exists() or self.file.stat().st_size == 0:

@@ -74,7 +74,26 @@ def run():
             display_expenses(results)
 
         elif choice == "4":
-            print("\nDelete Expense selected.\n")
+            print("\nDelete Expense\n")
+
+            expenses = manager.get_all_expenses()
+
+            if not expenses:
+                print("No expenses found.\n")
+                continue
+
+            display_expenses(expenses)
+
+            try:
+                choice_num = int(input("Enter expense number to delete: "))
+
+                if manager.delete_expense(choice_num - 1):
+                    print("\nExpense deleted successfully.\n")
+                else:
+                    print("\nInvalid expense number.\n")
+
+            except ValueError:
+                print("\nPlease enter a valid number.\n")
 
         elif choice == "5":
             print("\nMonthly Summary selected.\n")

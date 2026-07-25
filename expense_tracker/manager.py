@@ -40,3 +40,14 @@ class ExpenseManager:
             for expense in self.get_all_expenses()
             if category in expense.category.lower()
         ]
+
+    def delete_expense(self, index: int) -> bool:
+        """Delete an expense by 0-based index."""
+        expenses = self.get_all_expenses()
+
+        if index < 0 or index >= len(expenses):
+            return False
+
+        del expenses[index]
+        self.storage.save_all(expenses)
+        return True
