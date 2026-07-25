@@ -3,8 +3,8 @@ from expense_tracker.storage import CSVStorage
 
 
 class ExpenseManager:
-    def __init__(self):
-        self.storage = CSVStorage()
+    def __init__(self, storage=None):
+        self.storage = storage if storage else CSVStorage()
 
     def add_expense(self, title, amount, category, date):
         expense = Expense(
@@ -79,3 +79,28 @@ class ExpenseManager:
             "total": total,
             "categories": categories,
         }
+
+    def update_expense(
+        self,
+        index: int,
+        title: str,
+        amount: float,
+        category: str,
+        date: str,
+    ) -> bool:
+        """Update an existing expense by index."""
+        expenses = self.get_all_expenses()
+
+        if index < 0 or index >= len(expenses):
+            return False
+
+        expense = expenses[index]
+
+        expense.title = title
+        expense.amount = amount
+        expense.category = category
+        expense.date = date
+
+        self.storage.save_all(expenses)
+
+        return True

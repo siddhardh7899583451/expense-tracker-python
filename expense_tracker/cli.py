@@ -107,6 +107,39 @@ def run():
                 display_monthly_summary(summary)
 
         elif choice == "6":
+            print("\nEdit Expense\n")
+
+            expenses = manager.get_all_expenses()
+
+            if not expenses:
+                print("No expenses found.\n")
+                continue
+
+            display_expenses(expenses)
+
+            try:
+                expense_num = int(input("Enter expense number to edit: "))
+
+                title = get_valid_title()
+                amount = get_valid_amount()
+                category = get_valid_category()
+                date = get_valid_date()
+
+                if manager.update_expense(
+                    expense_num - 1,
+                    title,
+                    amount,
+                    category,
+                    date,
+                ):
+                    print("\nExpense updated successfully.\n")
+                else:
+                    print("\nInvalid expense number.\n")
+
+            except ValueError:
+                print("\nInvalid input.\n")
+
+        elif choice == "7":
             print("\nThank you for using Expense Tracker!")
             break
 
