@@ -29,3 +29,9 @@ dist/
 # Coverage
 .coverage
 htmlcov/
+
+# Generated data
+data/expenses.csv
+
+# Keep the data folder
+!data/.gitkeep

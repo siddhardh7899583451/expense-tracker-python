@@ -10,7 +10,7 @@ class CSVStorage:
         # Create the data folder if it doesn't exist
         self.file.parent.mkdir(parents=True, exist_ok=True)
 
-        # Create CSV file with header if it doesn't exist
+        # Create CSV file with header if it doesn't exist or is empty
         if not self.file.exists() or self.file.stat().st_size == 0:
             with open(self.file, "w", newline="", encoding="utf-8") as f:
                 writer = csv.writer(f)
@@ -34,6 +34,10 @@ class CSVStorage:
             ])
 
     def load(self):
+        # Return empty list if file doesn't exist or is empty
+        if not self.file.exists() or self.file.stat().st_size == 0:
+            return []
+
         expenses = []
 
         with open(self.file, "r", newline="", encoding="utf-8") as f:
