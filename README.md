@@ -1,50 +1,51 @@
-# Expense Tracker (Python)
+# Expense Tracker Python
 
-A command-line expense tracker built with Python that allows users to manage daily expenses using CSV storage.
+A command-line expense management application built using Python.
 
 ## Features
 
-- Add expenses
-- Store expenses in CSV
-- Load saved expenses
-- Automatic expense IDs
-- Input validation
-- Modular project structure
+✅ Add expenses  
+✅ View expenses  
+✅ Search expenses  
+✅ Edit expenses  
+✅ Delete expenses  
+✅ Monthly expense summary  
+✅ CSV based storage  
+✅ Input validation  
+✅ Unit testing with pytest  
 
 ## Tech Stack
 
 - Python 3.12
-- Dataclasses
-- CSV
-- Pathlib
-- Git & GitHub
+- pytest
+- CSV Storage
+- Black Formatter
+- Git/GitHub
 
 ## Project Structure
 
-```
-expense-tracker-python/
+expense_tracker/
 │
-├── expense_tracker/
-├── data/
-├── tests/
-├── docs/
-├── screenshots/
-├── main.py
-└── README.md
-```
+├── cli.py          # User interface
+├── manager.py      # Business logic
+├── models.py       # Expense model
+├── storage.py      # CSV handling
+├── validators.py   # Input validation
+├── display.py      # Table formatting
+└── constants.py    # Menu constants
 
-## Run
+
+tests/
+├── test_manager.py
+├── test_summary.py
+├── test_update.py
+├── test_display.py
+└── test_validators.py
+
+
+## Running the Project
+
+Create virtual environment:
 
 ```bash
-python main.py
-```
-
-## Future Improvements
-
-- Interactive menu
-- Delete expense
-- Edit expense
-- Category reports
-- Monthly reports
-- Charts
-- SQLite support
+python -m venv .venv
