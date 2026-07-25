@@ -30,3 +30,28 @@ def display_expenses(expenses):
     )
 
     print()
+
+
+def display_monthly_summary(summary: dict):
+    """Display formatted monthly expense summary."""
+    month = summary["month"]
+    total = summary["total"]
+    categories = summary["categories"]
+
+    print("\n" + "=" * 30)
+    print("Monthly Summary")
+    print("=" * 30)
+    print(f"\nMonth: {month}")
+    print(f"Total Expenses : ${total:,.2f}\n")
+
+    if not categories:
+        print("No expenses found for this month.\n")
+        return
+
+    print("Category Breakdown")
+    print("-" * 30)
+
+    for category, amt in categories.items():
+        print(f"{category:<18} ${amt:,.2f}")
+
+    print()

@@ -51,3 +51,33 @@ class ExpenseManager:
         del expenses[index]
         self.storage.save_all(expenses)
         return True
+
+    def get_monthly_summary(self, month: str) -> dict:
+        """
+        Calculate summary for a given month (YYYY-MM).
+        Returns a dict with month, total, and category breakdown.
+        """
+        expenses = self.get_all_expenses()
+
+        # Filter expenses matching YYYY-MM
+        monthly_expenses = [
+            exp for exp in expenses if exp.date.startswith(month)
+        ]
+
+        if not monthly_expenses:
+            return {"month": month, "total": 0.0, "categories": {}}
+
+        total = 0.0
+        categories = {}
+
+        for expense in monthly_expenses:
+            total += expense.amount
+            categories[expense.category] = (
+                categories.get(expense.category, 0.0) + expense.amount
+            )
+
+        return {
+            "month": month,
+            "total": total,
+            "categories": categories,
+        }

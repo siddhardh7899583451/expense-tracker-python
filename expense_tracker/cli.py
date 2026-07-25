@@ -1,10 +1,11 @@
 from expense_tracker.constants import MENU
-from expense_tracker.display import display_expenses
+from expense_tracker.display import display_expenses, display_monthly_summary
 from expense_tracker.manager import ExpenseManager
 from expense_tracker.validators import (
     get_valid_amount,
     get_valid_category,
     get_valid_date,
+    get_valid_month,
     get_valid_title,
 )
 
@@ -96,7 +97,14 @@ def run():
                 print("\nPlease enter a valid number.\n")
 
         elif choice == "5":
-            print("\nMonthly Summary selected.\n")
+            print("\nMonthly Summary\n")
+            month = get_valid_month()
+            summary = manager.get_monthly_summary(month)
+
+            if not summary["categories"]:
+                print(f"\nNo expenses found for {month}.\n")
+            else:
+                display_monthly_summary(summary)
 
         elif choice == "6":
             print("\nThank you for using Expense Tracker!")

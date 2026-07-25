@@ -44,3 +44,16 @@ def get_valid_date() -> str:
             return valid_dt.strftime("%Y-%m-%d")
         except ValueError:
             print("Invalid date.\nUse YYYY-MM-DD.")
+
+
+def get_valid_month() -> str:
+    """Prompt user for a valid month in YYYY-MM format."""
+    while True:
+        month_str = input("Enter month (YYYY-MM): ").strip()
+
+        try:
+            # Validate format YYYY-MM
+            datetime.strptime(month_str, "%Y-%m")
+            return month_str
+        except ValueError:
+            print("Invalid month format. Please use YYYY-MM (e.g., 2026-07).\n")
