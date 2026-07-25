@@ -49,3 +49,23 @@ screenshots/
 ├── view_expenses.png
 ├── monthly_summary.png
 └── edit_delete.png
+
+Running the Project
+
+1. Create Virtual Environment
+python -m venv .venv
+
+2. Activate Virtual Environment
+Windows:
+.venv\Scripts\activate
+macOS/Linux:
+source .venv/bin/activate
+
+3. Install Dependencies
+pip install -r requirements.txt
+
+4. Run Application
+python main.py
+
+5. Run Tests
+pytest
