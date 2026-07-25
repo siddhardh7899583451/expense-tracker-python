@@ -14,24 +14,20 @@ class CSVStorage:
         if not self.file.exists() or self.file.stat().st_size == 0:
             with open(self.file, "w", newline="", encoding="utf-8") as f:
                 writer = csv.writer(f)
-                writer.writerow([
-                    "expense_id",
-                    "title",
-                    "amount",
-                    "category",
-                    "date"
-                ])
+                writer.writerow(["expense_id", "title", "amount", "category", "date"])
 
     def save(self, expense: Expense):
         with open(self.file, "a", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
-            writer.writerow([
-                expense.expense_id,
-                expense.title,
-                expense.amount,
-                expense.category,
-                expense.date
-            ])
+            writer.writerow(
+                [
+                    expense.expense_id,
+                    expense.title,
+                    expense.amount,
+                    expense.category,
+                    expense.date,
+                ]
+            )
 
     def load(self):
         # Return empty list if file doesn't exist or is empty

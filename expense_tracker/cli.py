@@ -1,7 +1,11 @@
-from datetime import date
-
 from expense_tracker.constants import MENU
 from expense_tracker.manager import ExpenseManager
+from expense_tracker.validators import (
+    get_valid_amount,
+    get_valid_category,
+    get_valid_date,
+    get_valid_title,
+)
 
 manager = ExpenseManager()
 
@@ -15,15 +19,10 @@ def run():
         if choice == "1":
             print("\nAdd Expense\n")
 
-            title = input("Title: ").strip()
-            amount = float(input("Amount: "))
-            category = input("Category: ").strip()
-            expense_date = input(
-                "Date (YYYY-MM-DD, leave blank for today): "
-            ).strip()
-
-            if not expense_date:
-                expense_date = str(date.today())
+            title = get_valid_title()
+            amount = get_valid_amount()
+            category = get_valid_category()
+            expense_date = get_valid_date()
 
             manager.add_expense(
                 title,
