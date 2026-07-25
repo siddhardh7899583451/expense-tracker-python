@@ -1,0 +1,88 @@
+[1mdiff --git a/expense_tracker/cli.py b/expense_tracker/cli.py[m
+[1mindex 8d63c1e..30af6a8 100644[m
+[1m--- a/expense_tracker/cli.py[m
+[1m+++ b/expense_tracker/cli.py[m
+[36m@@ -111,4 +111,4 @@[m [mdef run():[m
+             break[m
+ [m
+         else:[m
+[31m-            print("\nInvalid choice. Please try again.\n")[m
+\ No newline at end of file[m
+[32m+[m[32m            print("\nInvalid choice. Please try again.\n")[m
+[1mdiff --git a/expense_tracker/display.py b/expense_tracker/display.py[m
+[1mindex dc26448..9743fb9 100644[m
+[1m--- a/expense_tracker/display.py[m
+[1m+++ b/expense_tracker/display.py[m
+[36m@@ -54,4 +54,4 @@[m [mdef display_monthly_summary(summary: dict):[m
+     for category, amt in categories.items():[m
+         print(f"{category:<18} ${amt:,.2f}")[m
+ [m
+[31m-    print()[m
+\ No newline at end of file[m
+[32m+[m[32m    print()[m
+[1mdiff --git a/expense_tracker/manager.py b/expense_tracker/manager.py[m
+[1mindex 32e85ae..ac240fa 100644[m
+[1m--- a/expense_tracker/manager.py[m
+[1m+++ b/expense_tracker/manager.py[m
+[36m@@ -60,9 +60,7 @@[m [mclass ExpenseManager:[m
+         expenses = self.get_all_expenses()[m
+ [m
+         # Filter expenses matching YYYY-MM[m
+[31m-        monthly_expenses = [[m
+[31m-            exp for exp in expenses if exp.date.startswith(month)[m
+[31m-        ][m
+[32m+[m[32m        monthly_expenses = [exp for exp in expenses if exp.date.startswith(month)][m
+ [m
+         if not monthly_expenses:[m
+             return {"month": month, "total": 0.0, "categories": {}}[m
+[36m@@ -80,4 +78,4 @@[m [mclass ExpenseManager:[m
+             "month": month,[m
+             "total": total,[m
+             "categories": categories,[m
+[31m-        }[m
+\ No newline at end of file[m
+[32m+[m[32m        }[m
+[1mdiff --git a/expense_tracker/storage.py b/expense_tracker/storage.py[m
+[1mindex ed04967..1078917 100644[m
+[1m--- a/expense_tracker/storage.py[m
+[1m+++ b/expense_tracker/storage.py[m
+[36m@@ -67,4 +67,4 @@[m [mclass CSVStorage:[m
+                     )[m
+                 )[m
+ [m
+[31m-        return expenses[m
+\ No newline at end of file[m
+[32m+[m[32m        return expenses[m
+[1mdiff --git a/tests/test_display.py b/tests/test_display.py[m
+[1mindex 207ce3c..dd5b23b 100644[m
+[1m--- a/tests/test_display.py[m
+[1m+++ b/tests/test_display.py[m
+[36m@@ -31,4 +31,4 @@[m [mdef display_expenses(expenses):[m
+         )[m
+     )[m
+ [m
+[31m-    print()[m
+\ No newline at end of file[m
+[32m+[m[32m    print()[m
+[1mdiff --git a/tests/test_manager.py b/tests/test_manager.py[m
+[1mindex c9363aa..2bd9e17 100644[m
+[1m--- a/tests/test_manager.py[m
+[1m+++ b/tests/test_manager.py[m
+[36m@@ -33,4 +33,4 @@[m [mdef test_delete_from_empty(tmp_path):[m
+     manager = ExpenseManager()[m
+     manager.storage = CSVStorage(tmp_path / "expenses.csv")[m
+ [m
+[31m-    assert manager.delete_expense(0) is False[m
+\ No newline at end of file[m
+[32m+[m[32m    assert manager.delete_expense(0) is False[m
+[1mdiff --git a/tests/test_summary.py b/tests/test_summary.py[m
+[1mindex 28cc878..f66e15c 100644[m
+[1m--- a/tests/test_summary.py[m
+[1m+++ b/tests/test_summary.py[m
+[36m@@ -39,4 +39,4 @@[m [mdef test_get_monthly_summary_empty(tmp_path):[m
+     summary = manager.get_monthly_summary("2026-08")[m
+ [m
+     assert summary["total"] == 0.0[m
+[31m-    assert summary["categories"] == {}[m
+\ No newline at end of file[m
+[32m+[m[32m    assert summary["categories"] == {}[m

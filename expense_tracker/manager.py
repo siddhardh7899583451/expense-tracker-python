@@ -60,9 +60,7 @@ class ExpenseManager:
         expenses = self.get_all_expenses()
 
         # Filter expenses matching YYYY-MM
-        monthly_expenses = [
-            exp for exp in expenses if exp.date.startswith(month)
-        ]
+        monthly_expenses = [exp for exp in expenses if exp.date.startswith(month)]
 
         if not monthly_expenses:
             return {"month": month, "total": 0.0, "categories": {}}
