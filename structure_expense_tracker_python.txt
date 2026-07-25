@@ -1,0 +1,21 @@
+cd C:\Projects\expense-tracker-python
+
+:: Create subdirectories
+mkdir expense_tracker data tests docs screenshots
+
+:: Create root files
+type nul > README.md
+type nul > LICENSE
+type nul > .gitignore
+type nul > requirements.txt
+type nul > main.py
+
+:: Create package files inside expense_tracker
+type nul > expense_tracker\__init__.py
+type nul > expense_tracker\models.py
+type nul > expense_tracker\manager.py
+type nul > expense_tracker\storage.py
+type nul > expense_tracker\utils.py
+
+:: Create data file
+type nul > data\expenses.csv
