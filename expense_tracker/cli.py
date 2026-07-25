@@ -1,4 +1,5 @@
 from expense_tracker.constants import MENU
+from expense_tracker.display import display_expenses
 from expense_tracker.manager import ExpenseManager
 from expense_tracker.validators import (
     get_valid_amount,
@@ -42,10 +43,7 @@ def run():
                 print("No expenses found.\n")
                 continue
 
-            for expense in expenses:
-                print(expense)
-
-            print()
+            display_expenses(expenses)
 
         elif choice == "3":
             print("\nSearch Expenses\n")
@@ -73,10 +71,7 @@ def run():
                 print("No matching expenses found.\n")
                 continue
 
-            for expense in results:
-                print(expense)
-
-            print()
+            display_expenses(results)
 
         elif choice == "4":
             print("\nDelete Expense selected.\n")
