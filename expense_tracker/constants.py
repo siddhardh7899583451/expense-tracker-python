@@ -1,6 +1,6 @@
 MENU = """
 ========================================
-           EXPENSE TRACKER
+        EXPENSE TRACKER v1.0
 ========================================
 1. Add Expense
 2. View Expenses
