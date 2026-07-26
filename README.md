@@ -1,3 +1,4 @@
+```markdown
 # 💰 Expense Tracker Python (CLI v2.0)
 
 A modular, test-driven Python command-line application built with clean architectural principles. Easily track daily expenses, view monthly analytics, and manage records through a rich interactive terminal interface.
@@ -50,79 +51,166 @@ expense-tracker-python/
 │   └── test_validators.py
 │
 ├── docs/
-│   └── screenshots/    # Application screenshots
+│   ├── screenshots/    # Application and diagram screenshots
+│   ├── use_case_scenarios.md
+│   └── use_case_diagram.md
 │
 ├── main.py             # Entrypoint
 ├── requirements.txt
 └── README.md
+
+```
+## 🖼️ Screenshots
+
+### Main Menu
+
+![Main Menu](docs/screenshots/main_menu.png)
+
+---
+
+### Add Expense
+
+![Add Expense](docs/screenshots/add_expense.png)
+
+---
+
+### View Expenses
+
+![View Expenses](docs/screenshots/view_expenses.png)
+
+---
+
+### Search Expense
+
+![Search Expense](docs/screenshots/search_expense.png)
+
+---
+
+### Edit Expense
+
+![Edit Expense](docs/screenshots/edit_expense.png)
+
+---
+
+### Delete Expense
+
+![Delete Expense](docs/screenshots/delete_expense.png)
+
+---
+
+### Monthly Summary
+
+![Monthly Summary](docs/screenshots/monthly_summary.png)
+
+---
+
+### Exit Screen
+
+![Exit Screen](docs/screenshots/exit_screen.png)
+---
 
 ## 🚀 Running the Project
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/siddhardh7899583451/expense-tracker-python.git
+git clone [https://github.com/siddhardh7899583451/expense-tracker-python.git](https://github.com/siddhardh7899583451/expense-tracker-python.git)
 cd expense-tracker-python
+
 ```
 
 ### 2. Create a Virtual Environment
 
 ```bash
 python -m venv .venv
+
 ```
 
 ### 3. Activate the Virtual Environment
 
-**Windows**
+**Windows:**
 
-```bash
+```cmd
 .venv\Scripts\activate
+
 ```
 
-**macOS/Linux**
+**macOS/Linux:**
 
 ```bash
 source .venv/bin/activate
+
 ```
 
 ### 4. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
+
 ```
 
 ### 5. Run the Application
 
 ```bash
 python main.py
+
 ```
 
-### 6. Run the Test Suite
+### 6. Run the Test Suite & Formatter
 
 ```bash
+# Run tests
 python -m pytest
-```
 
-### 7. Format the Code
-
-```bash
+# Format code
 python -m black .
+
 ```
 
 ---
 
-## 🚀 Future Improvements
+## 🖼️ Screenshots
 
-- SQLite database integration
-- Flask/FastAPI REST API
-- React web dashboard
-- User authentication
-- Expense charts and analytics
-- Docker support
-- GitHub Actions CI/CD
+### Main Menu
+
+---
+
+### View Expenses
+
+---
+
+### Monthly Summary
+
+---
+
+## 📐 UML Diagrams
+
+The project documentation includes comprehensive architectural diagrams:
+
+* [x] **Use Case Scenarios** (`docs/use_case_scenarios.md`)
+* [x] **Use Case Diagram** (`docs/use_case_diagram.md`)
+* [ ] *(Coming Soon)* Class Diagram
+* [ ] *(Coming Soon)* Sequence Diagram
+* [ ] *(Coming Soon)* System Architecture Diagram
+
+### Use Case Diagram
+
+---
+
+## 🚀 Future Roadmap
+
+* SQLite database integration
+* Flask/FastAPI REST API
+* React web dashboard
+* User authentication
+* Expense charts and visual analytics
+* Docker containerization
+* GitHub Actions CI/CD pipeline
 
 ---
 
 ## 📄 License
 
 This project is licensed under the MIT License.
+
+```
