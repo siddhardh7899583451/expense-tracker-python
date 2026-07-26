@@ -1,5 +1,6 @@
 from expense_tracker.display import render_welcome_screen
 from expense_tracker.display import render_help_screen
+from expense_tracker.display import render_about_screen
 from expense_tracker.display import (
     render_add_screen,
     render_delete_confirmation,
@@ -38,7 +39,7 @@ def run():
         stats = manager.get_dashboard_stats()
         render_main_menu(stats)
 
-        choice = input("Select an option (1-8): ").strip()
+        choice = input("Select an option (1-9): ").strip()
 
         if choice == "1":
             # Add Expense
@@ -181,9 +182,13 @@ def run():
             pause()
 
         elif choice == "8":
+            render_about_screen()
+            pause()
+
+        elif choice == "9":
             render_exit_screen()
             break
 
         else:
-            print_error("Invalid option. Please enter a number between 1 and 8.")
+            print_error("Invalid option. Please enter a number between 1 and 9.")
             pause()

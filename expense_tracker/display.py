@@ -22,7 +22,7 @@ def render_main_menu(stats: dict):
     """Clean dashboard with live stats dict."""
     clear_screen()
     print(f"""{PRIMARY}═══════════════════════════════════════════════
-             💰 EXPENSE TRACKER v2.0
+             💰 EXPENSE TRACKER v2.1
 ═══════════════════════════════════════════════{RESET}
 {BOLD}Today    :{RESET} {stats.get('date', '')}
 {BOLD}Expenses :{RESET} {stats.get('records', 0)}
@@ -35,7 +35,8 @@ def render_main_menu(stats: dict):
   {BOLD}5.{RESET} 🗑️ Delete Expense
   {BOLD}6.{RESET} 📊 Monthly Summary
   {BOLD}7.{RESET} ❓ Help
-  {BOLD}8.{RESET} 🚪 Exit
+  {BOLD}8.{RESET} ℹ️ About
+  {BOLD}9.{RESET} 🚪 Exit
 {PRIMARY}═══════════════════════════════════════════════{RESET}""")
 
 
@@ -168,19 +169,6 @@ def render_monthly_summary(
             )
 
 
-def render_exit_screen():
-    clear_screen()
-    print(f"""{PRIMARY}═══════════════════════════════════════════════
-
-         Thank you for using
-
-           💰 EXPENSE TRACKER
-
-        Have a productive day!
-
-═══════════════════════════════════════════════{RESET}""")
-
-
 def render_help_screen():
     clear_screen()
     render_banner("Help & Guidance", icon="❓")
@@ -206,3 +194,37 @@ def render_help_screen():
     print(f"{PRIMARY}───────────────────────────────────────────{RESET}")
     print(f"{BOLD}📅 Date Format:{RESET} YYYY-MM-DD (e.g., 2026-07-26)")
     print(f"{PRIMARY}───────────────────────────────────────────{RESET}\n")
+
+
+def render_about_screen():
+    """Displays project information."""
+    clear_screen()
+    render_banner("About", icon="ℹ️")
+
+    print(f"{BOLD}Project:{RESET} Expense Tracker Python")
+    print(f"{BOLD}Version:{RESET} 2.1")
+    print(f"{BOLD}Developer:{RESET} Siddhardh Kuncha")
+    print(f"{BOLD}Language:{RESET} Python 3.12")
+    print(f"{BOLD}Framework:{RESET} Rich CLI")
+    print(f"{BOLD}Storage:{RESET} CSV")
+    print(f"{BOLD}Testing:{RESET} pytest")
+    print(f"{BOLD}Formatter:{RESET} black")
+    print(f"{BOLD}License:{RESET} MIT")
+
+    print(
+        "\nGitHub Repository:\n"
+        "https://github.com/siddhardh7899583451/expense-tracker-python"
+    )
+
+
+def render_exit_screen():
+    clear_screen()
+    print(f"""{PRIMARY}═══════════════════════════════════════════════
+
+         Thank you for using
+
+           💰 EXPENSE TRACKER
+
+        Have a productive day!
+
+═══════════════════════════════════════════════{RESET}""")
