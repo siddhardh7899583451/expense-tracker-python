@@ -1,3 +1,4 @@
+from expense_tracker.display import render_welcome_screen
 from expense_tracker.display import (
     render_add_screen,
     render_delete_confirmation,
@@ -30,6 +31,7 @@ manager = ExpenseManager()
 
 
 def run():
+    render_welcome_screen()
     while True:
         # Step 2: Simplified menu rendering via manager stats
         stats = manager.get_dashboard_stats()

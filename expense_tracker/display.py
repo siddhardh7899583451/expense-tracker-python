@@ -1,5 +1,17 @@
+import time
 from expense_tracker.theme import BOLD, MUTED, PRIMARY, RESET, SECONDARY
 from expense_tracker.ui import clear_screen, render_banner
+
+
+def render_welcome_screen():
+    clear_screen()
+    print(f"{PRIMARY}══════════════════════════════════════════════{RESET}\n")
+    print(f"          💰 {BOLD}EXPENSE TRACKER{RESET}\n")
+    print("       Production CLI Version 2.1\n")
+    print("      Developed by Siddhardh Kuncha\n")
+    print(f"{PRIMARY}══════════════════════════════════════════════{RESET}")
+    print("\nLoading...")
+    time.sleep(1)
 
 
 def render_main_menu(stats: dict):
