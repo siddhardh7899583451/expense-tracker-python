@@ -185,5 +185,5 @@ def run():
             break
 
         else:
-            print_error("Invalid option. Please enter a number between 1 and 7.")
+            print_error("Invalid option. Please enter a number between 1 and 8.")
             pause()
