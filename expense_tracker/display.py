@@ -1,4 +1,8 @@
 import time
+from rich.console import Console
+from rich.table import Table
+
+console = Console()
 from expense_tracker.theme import BOLD, MUTED, PRIMARY, RESET, SECONDARY
 from expense_tracker.ui import clear_screen, render_banner
 
@@ -55,34 +59,32 @@ def render_search_results(keyword: str, results: list):
 
 
 def render_table(expenses):
-    """Formats expense list in a structured tabular layout."""
+    """Formats expense list in a structured tabular layout using Rich."""
     if not expenses:
         print(f"{MUTED}No records found.{RESET}")
         return
 
-    print(
-        f"{PRIMARY}┌────┬──────────────────┬───────────┬───────────────┬────────────┐{RESET}"
+    table = Table(
+        title="[bold blue]Expenses[/bold blue]",
+        header_style="bold magenta",
+        show_lines=True,
     )
-    print(
-        f"{BOLD}│ No │ Title            │ Amount    │ Category      │ Date       │{RESET}"
-    )
-    print(
-        f"{PRIMARY}├────┼──────────────────┼───────────┼───────────────┼────────────┤{RESET}"
-    )
+
+    table.add_column("No", justify="center", style="cyan", no_wrap=True)
+    table.add_column("Title", style="white")
+    table.add_column("Amount", justify="right", style="green")
+    table.add_column("Category", justify="center", style="yellow")
+    table.add_column("Date", justify="center", style="blue")
 
     for idx, exp in enumerate(expenses, 1):
         title = exp.title if hasattr(exp, "title") else exp.get("title", "")
         amount = exp.amount if hasattr(exp, "amount") else exp.get("amount", 0.0)
         cat = exp.category if hasattr(exp, "category") else exp.get("category", "")
-        date = exp.date if hasattr(exp, "date") else exp.get("date", "")
+        date = str(exp.date if hasattr(exp, "date") else exp.get("date", ""))
 
-        print(
-            f"│ {str(idx).ljust(2)} │ {title[:16].ljust(16)} │ ${amount:>8.2f} │ {cat[:13].ljust(13)} │ {str(date).ljust(10)} │"
-        )
+        table.add_row(str(idx), title, f"${amount:,.2f}", cat, date)
 
-    print(
-        f"{PRIMARY}└────┴──────────────────┴───────────┴───────────────┴────────────┘{RESET}"
-    )
+    console.print(table)
 
 
 def render_view_expenses_screen(expenses, total_records: int, total_spent: float):
