@@ -2,45 +2,44 @@ from expense_tracker.theme import BOLD, MUTED, PRIMARY, RESET, SECONDARY
 from expense_tracker.ui import clear_screen, render_banner
 
 
-def render_main_menu(
-    today_date: str = "",
-    month_name: str = "",
-    total_count: int = 0,
-    total_spent: float = 0.0,
-):
-    """Renders the CLI v2 dashboard header and main navigation menu."""
+def render_main_menu(stats: dict):
+    """Recommendation #6: Clean dashboard with live stats dict."""
     clear_screen()
-
-    # If dashboard metrics are provided, display the dynamic stats header
-    if today_date or month_name or total_count or total_spent:
-        print(f"""{PRIMARY}═══════════════════════════════════════════════
+    print(f"""{PRIMARY}═══════════════════════════════════════════════
              💰 EXPENSE TRACKER v2.0
 ═══════════════════════════════════════════════{RESET}
-{BOLD}Date:{RESET} {today_date.ljust(10)} | {BOLD}Month:{RESET} {month_name}
-{BOLD}Total Expenses:{RESET} {str(total_count).ljust(4)} | {BOLD}Total Spent:{RESET} ${total_spent:,.2f}
+{BOLD}Today :{RESET} {stats.get('date', '')}
+{BOLD}Expenses :{RESET} {stats.get('records', 0)}
+{BOLD}Spent :{RESET} ${stats.get('spent', 0.0):,.2f}
 {PRIMARY}───────────────────────────────────────────────{RESET}
-  {BOLD}1.{RESET} ➕ Add Expense
-  {BOLD}2.{RESET} 📋 View Expenses
-  {BOLD}3.{RESET} 🔍 Search Expenses
-  {BOLD}4.{RESET} ✏️  Edit Expense
-  {BOLD}5.{RESET} 🗑 Delete Expense
-  {BOLD}6.{RESET} 📊 Monthly Summary
-  {BOLD}7.{RESET} 🚪 Exit
+  {BOLD}1.{RESET} Add Expense
+  {BOLD}2.{RESET} View Expenses
+  {BOLD}3.{RESET} Search Expenses
+  {BOLD}4.{RESET} Edit Expense
+  {BOLD}5.{RESET} Delete Expense
+  {BOLD}6.{RESET} Monthly Summary
+  {BOLD}7.{RESET} Exit
 {PRIMARY}═══════════════════════════════════════════════{RESET}""")
-    else:
-        # Fallback boxed menu layout
-        print(f"""{PRIMARY}╔══════════════════════════════════════════════╗
-║             {SECONDARY}💰 EXPENSE TRACKER{PRIMARY}              ║
-║                  {MUTED}Version 2.0{PRIMARY}                ║
-╠══════════════════════════════════════════════╣
-║  {BOLD}1. ➕ Add Expense{RESET}{PRIMARY}                          ║
-║  {BOLD}2. 📋 View Expenses{RESET}{PRIMARY}                        ║
-║  {BOLD}3. 🔍 Search Expenses{RESET}{PRIMARY}                      ║
-║  {BOLD}4. ✏️  Edit Expense{RESET}{PRIMARY}                        ║
-║  {BOLD}5. 🗑 Delete Expense{RESET}{PRIMARY}                       ║
-║  {BOLD}6. 📊 Monthly Summary{RESET}{PRIMARY}                      ║
-║  {BOLD}7. 🚪 Exit{RESET}{PRIMARY}                                ║
-╚══════════════════════════════════════════════╝{RESET}""")
+
+
+def render_add_screen():
+    """Recommendation #1: UI headers in display.py."""
+    clear_screen()
+    render_banner("Add New Expense", icon="➕")
+
+
+def render_search_screen():
+    """Recommendation #1: Dedicated search header."""
+    clear_screen()
+    render_banner("Search Expenses", icon="🔍")
+
+
+def render_search_results(keyword: str, results: list):
+    """Recommendation #3: Polished search summary."""
+    print(f"\n{BOLD}Keyword :{RESET} {keyword}")
+    print(f"{BOLD}Matches :{RESET} {len(results)}")
+    print(f"{PRIMARY}───────────────────────────────────────────{RESET}\n")
+    render_table(results)
 
 
 def render_table(expenses):
@@ -60,10 +59,10 @@ def render_table(expenses):
     )
 
     for idx, exp in enumerate(expenses, 1):
-        title = exp.get("title", "") if isinstance(exp, dict) else exp.title
-        amount = exp.get("amount", 0.0) if isinstance(exp, dict) else exp.amount
-        cat = exp.get("category", "") if isinstance(exp, dict) else exp.category
-        date = exp.get("date", "") if isinstance(exp, dict) else exp.date
+        title = exp.title if hasattr(exp, "title") else exp.get("title", "")
+        amount = exp.amount if hasattr(exp, "amount") else exp.get("amount", 0.0)
+        cat = exp.category if hasattr(exp, "category") else exp.get("category", "")
+        date = exp.date if hasattr(exp, "date") else exp.get("date", "")
 
         print(
             f"│ {str(idx).ljust(2)} │ {title[:16].ljust(16)} │ ${amount:>8.2f} │ {cat[:13].ljust(13)} │ {str(date).ljust(10)} │"
@@ -75,7 +74,6 @@ def render_table(expenses):
 
 
 def render_view_expenses_screen(expenses, total_records: int, total_spent: float):
-    """Dedicated screen view showing summary stats before rendering the expense table."""
     clear_screen()
     render_banner("All Expenses", icon="📋")
 
@@ -89,42 +87,35 @@ def render_view_expenses_screen(expenses, total_records: int, total_spent: float
 
 
 def render_delete_confirmation(expense) -> bool:
-    """Displays a dedicated prompt layout to confirm deletion."""
+    """Recommendation #4: Enhanced delete screen with clear summary."""
     clear_screen()
     render_banner("Delete Expense", icon="🗑")
 
-    title = expense.get("title", "") if isinstance(expense, dict) else expense.title
-    amount = expense.get("amount", 0.0) if isinstance(expense, dict) else expense.amount
-    cat = expense.get("category", "") if isinstance(expense, dict) else expense.category
-    date = expense.get("date", "") if isinstance(expense, dict) else expense.date
+    print(f"{BOLD}Title    :{RESET} {expense.title}")
+    print(f"{BOLD}Category :{RESET} {expense.category}")
+    print(f"{BOLD}Amount   :{RESET} ${expense.amount:,.2f}")
+    print(f"{BOLD}Date     :{RESET} {expense.date}\n")
 
-    print(f"{BOLD}Title    :{RESET} {title}")
-    print(f"{BOLD}Category :{RESET} {cat}")
-    print(f"{BOLD}Amount   :{RESET} ${amount:,.2f}")
-    print(f"{BOLD}Date     :{RESET} {date}\n")
+    print(f"{SECONDARY}Are you sure?{RESET}")
+    print(" [Y] Yes")
+    print(" [N] No\n")
 
-    print(f"{SECONDARY}Are you sure you want to delete this item?{RESET}")
-    choice = input("Confirm [Y/N]: ").strip().upper()
+    choice = input("Choice: ").strip().upper()
     return choice == "Y"
 
 
 def render_edit_screen(expense):
-    """Displays current expense attributes before gathering update inputs."""
+    """Recommendation #5: Clear edit guidance."""
     clear_screen()
     render_banner("Edit Expense", icon="✏️")
 
-    title = expense.get("title", "") if isinstance(expense, dict) else expense.title
-    amount = expense.get("amount", 0.0) if isinstance(expense, dict) else expense.amount
-    cat = expense.get("category", "") if isinstance(expense, dict) else expense.category
-    date = expense.get("date", "") if isinstance(expense, dict) else expense.date
-
     print(f"{SECONDARY}── Current Values ──────────────────────────{RESET}")
-    print(f"{BOLD}Title    :{RESET} {title}")
-    print(f"{BOLD}Amount   :{RESET} ${amount:,.2f}")
-    print(f"{BOLD}Category :{RESET} {cat}")
-    print(f"{BOLD}Date     :{RESET} {date}")
+    print(f"{BOLD}Title    :{RESET} {expense.title}")
+    print(f"{BOLD}Amount   :{RESET} ${expense.amount:,.2f}")
+    print(f"{BOLD}Category :{RESET} {expense.category}")
+    print(f"{BOLD}Date     :{RESET} {expense.date}")
     print(f"{PRIMARY}───────────────────────────────────────────{RESET}\n")
-    print(f"{MUTED}Leave blank to keep existing value.{RESET}\n")
+    print(f"{MUTED}Press Enter to keep existing values.[...] {RESET}\n")
 
 
 def render_monthly_summary(
@@ -135,7 +126,6 @@ def render_monthly_summary(
     highest=None,
     lowest=None,
 ):
-    """Renders the monthly breakdown dashboard screen."""
     clear_screen()
     render_banner("Monthly Summary", icon="📊")
 
@@ -154,21 +144,16 @@ def render_monthly_summary(
     if highest or lowest:
         print(f"\n{PRIMARY}───────────────────────────────────────────{RESET}")
         if highest:
-            h_title = (
-                highest.get("title") if isinstance(highest, dict) else highest.title
+            print(
+                f"{BOLD}Highest Expense :{RESET} {highest.title} (${highest.amount:,.2f})"
             )
-            h_amt = (
-                highest.get("amount") if isinstance(highest, dict) else highest.amount
-            )
-            print(f"{BOLD}Highest Expense :{RESET} {h_title} (${h_amt:,.2f})")
         if lowest:
-            l_title = lowest.get("title") if isinstance(lowest, dict) else lowest.title
-            l_amt = lowest.get("amount") if isinstance(lowest, dict) else lowest.amount
-            print(f"{BOLD}Lowest Expense  :{RESET} {l_title} (${l_amt:,.2f})")
+            print(
+                f"{BOLD}Lowest Expense  :{RESET} {lowest.title} (${lowest.amount:,.2f})"
+            )
 
 
 def render_exit_screen():
-    """Renders the exit screen graphic."""
     clear_screen()
     print(f"""{PRIMARY}═══════════════════════════════════════════════
 

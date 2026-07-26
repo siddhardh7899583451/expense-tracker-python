@@ -1,11 +1,12 @@
-from datetime import datetime
-
 from expense_tracker.display import (
+    render_add_screen,
     render_delete_confirmation,
     render_edit_screen,
     render_exit_screen,
     render_main_menu,
     render_monthly_summary,
+    render_search_results,
+    render_search_screen,
     render_table,
     render_view_expenses_screen,
 )
@@ -30,29 +31,15 @@ manager = ExpenseManager()
 
 def run():
     while True:
-        # Generate live metrics for dashboard header
-        today_date = datetime.now().strftime("%Y-%m-%d")
-        current_month = datetime.now().strftime("%B %Y")
-        all_expenses = manager.get_all_expenses()
-        total_count = len(all_expenses)
-        total_spent = sum(e.amount for e in all_expenses)
-
-        render_main_menu(
-            today_date=today_date,
-            month_name=current_month,
-            total_count=total_count,
-            total_spent=total_spent,
-        )
+        # Step 2: Simplified menu rendering via manager stats
+        stats = manager.get_dashboard_stats()
+        render_main_menu(stats)
 
         choice = input("Select an option (1-7): ").strip()
 
         if choice == "1":
             # Add Expense
-            clear_screen()
-            print("═══════════════════════════════════════")
-            print("          ➕ ADD NEW EXPENSE           ")
-            print("═══════════════════════════════════════\n")
-
+            render_add_screen()
             title = get_valid_title()
             amount = get_valid_amount()
             category = get_valid_category()
@@ -78,11 +65,7 @@ def run():
 
         elif choice == "3":
             # Search Expenses
-            clear_screen()
-            print("═══════════════════════════════════════")
-            print("          🔍 SEARCH EXPENSES           ")
-            print("═══════════════════════════════════════\n")
-
+            render_search_screen()
             print("1. Search by Title")
             print("2. Search by Category\n")
 
@@ -91,20 +74,17 @@ def run():
             if option == "1":
                 keyword = input("Enter title keyword: ").strip()
                 results = manager.search_by_title(keyword)
+                render_search_results(keyword, results)
             elif option == "2":
                 keyword = input("Enter category: ").strip()
                 results = manager.search_by_category(keyword)
+                render_search_results(keyword, results)
             else:
                 print_error("Invalid option.")
-                pause()
-                continue
-
-            print(f"\nFound {len(results)} matching expenses:\n")
-            render_table(results)
             pause()
 
         elif choice == "4":
-            # Edit Expense
+            # Recommendation #5: Edit with fallback to existing values
             expenses = manager.get_all_expenses()
             if not expenses:
                 clear_screen()
@@ -119,15 +99,21 @@ def run():
                 choice_num = int(input("\nEnter expense number to edit: ").strip())
                 if 1 <= choice_num <= len(expenses):
                     idx = choice_num - 1
-                    target_expense = expenses[idx]
+                    target = expenses[idx]
 
-                    # Show current values before collecting updates
-                    render_edit_screen(target_expense)
+                    render_edit_screen(target)
 
-                    title = get_valid_title()
-                    amount = get_valid_amount()
-                    category = get_valid_category()
-                    date = get_valid_date()
+                    raw_title = input(f"Title [{target.title}]: ").strip()
+                    title = raw_title if raw_title else target.title
+
+                    raw_amount = input(f"Amount [{target.amount}]: ").strip()
+                    amount = float(raw_amount) if raw_amount else target.amount
+
+                    raw_cat = input(f"Category [{target.category}]: ").strip()
+                    category = raw_cat if raw_cat else target.category
+
+                    raw_date = input(f"Date [{target.date}]: ").strip()
+                    date = raw_date if raw_date else target.date
 
                     if manager.update_expense(idx, title, amount, category, date):
                         print_success("Expense updated successfully!")
@@ -136,7 +122,7 @@ def run():
                 else:
                     print_error("Invalid expense number.")
             except ValueError:
-                print_error("Please enter a valid number.")
+                print_error("Please enter valid input.")
             pause()
 
         elif choice == "5":
@@ -155,10 +141,9 @@ def run():
                 choice_num = int(input("\nEnter expense number to delete: ").strip())
                 if 1 <= choice_num <= len(expenses):
                     idx = choice_num - 1
-                    target_expense = expenses[idx]
+                    target = expenses[idx]
 
-                    # Prompt confirmation before deletion
-                    if render_delete_confirmation(target_expense):
+                    if render_delete_confirmation(target):
                         manager.delete_expense(idx)
                         print_success("Expense deleted successfully!")
                     else:
@@ -172,10 +157,6 @@ def run():
         elif choice == "6":
             # Monthly Summary
             clear_screen()
-            print("═══════════════════════════════════════")
-            print("          📊 MONTHLY SUMMARY           ")
-            print("═══════════════════════════════════════\n")
-
             month = get_valid_month()
             summary = manager.get_monthly_summary(month)
 

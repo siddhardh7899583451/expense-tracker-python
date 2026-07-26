@@ -1,3 +1,4 @@
+from datetime import datetime
 from expense_tracker.models import Expense
 from expense_tracker.storage import CSVStorage
 
@@ -14,9 +15,7 @@ class ExpenseManager:
             category=category,
             date=date,
         )
-
         self.storage.save(expense)
-
         return expense
 
     def get_all_expenses(self):
@@ -25,7 +24,6 @@ class ExpenseManager:
     def search_by_title(self, keyword: str):
         """Search expenses by title (case-insensitive)."""
         keyword = keyword.lower()
-
         return [
             expense
             for expense in self.get_all_expenses()
@@ -35,7 +33,6 @@ class ExpenseManager:
     def search_by_category(self, category: str):
         """Search expenses by category (case-insensitive)."""
         category = category.lower()
-
         return [
             expense
             for expense in self.get_all_expenses()
@@ -45,7 +42,6 @@ class ExpenseManager:
     def delete_expense(self, index: int) -> bool:
         """Delete an expense by 0-based index."""
         expenses = self.get_all_expenses()
-
         if index < 0 or index >= len(expenses):
             return False
 
@@ -53,15 +49,19 @@ class ExpenseManager:
         self.storage.save_all(expenses)
         return True
 
-    def get_monthly_summary(self, month: str) -> dict:
-        """Calculate summary for a given month (YYYY-MM).
-
-        Returns a dict with month, total, count, categories, highest, and
-        lowest.
-        """
+    def get_dashboard_stats(self) -> dict:
+        """Recommendation #2: Encapsulate dashboard metrics in Manager."""
         expenses = self.get_all_expenses()
+        return {
+            "date": datetime.now().strftime("%d %b %Y"),
+            "month": datetime.now().strftime("%B %Y"),
+            "records": len(expenses),
+            "spent": sum(e.amount for e in expenses),
+        }
 
-        # Filter expenses matching YYYY-MM
+    def get_monthly_summary(self, month: str) -> dict:
+        """Calculate summary for a given month (YYYY-MM)."""
+        expenses = self.get_all_expenses()
         monthly_expenses = [exp for exp in expenses if exp.date.startswith(month)]
 
         if not monthly_expenses:
@@ -104,17 +104,14 @@ class ExpenseManager:
     ) -> bool:
         """Update an existing expense by index."""
         expenses = self.get_all_expenses()
-
         if index < 0 or index >= len(expenses):
             return False
 
         expense = expenses[index]
-
         expense.title = title
         expense.amount = amount
         expense.category = category
         expense.date = date
 
         self.storage.save_all(expenses)
-
         return True
