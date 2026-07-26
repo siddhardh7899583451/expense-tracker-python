@@ -1,8 +1,5 @@
 import os
-from colorama import Fore, Style, init
-
-# Initialize colorama for cross-platform support
-init(autoreset=True)
+from expense_tracker.theme import BOLD, ERROR, MUTED, PRIMARY, RESET, SUCCESS, WARNING
 
 
 def clear_screen():
@@ -11,27 +8,27 @@ def clear_screen():
 
 
 def pause():
-    """Pauses execution until the user presses Enter."""
-    input(f"\n{Style.DIM}Press Enter to continue...{Style.RESET_ALL}")
+    """Pauses execution until user hits Enter."""
+    input(f"\n{MUTED}Press Enter to continue...{RESET}")
 
 
-def print_header(title: str):
-    """Prints a styled header."""
-    print(f"\n{Fore.CYAN}{Style.BRIGHT}{'=' * 40}")
-    print(f"{title.center(40)}")
-    print(f"{'=' * 40}{Style.RESET_ALL}\n")
+def render_banner(title: str, icon: str = "💰", width: int = 42):
+    """Renders a styled header block."""
+    border = "═" * width
+    centered_title = f"{icon}  {title.upper()}".center(width)
+
+    print(f"{PRIMARY}{border}")
+    print(f"{BOLD}{centered_title}")
+    print(f"{PRIMARY}{border}{RESET}\n")
 
 
 def print_success(message: str):
-    """Prints a success message."""
-    print(f"{Fore.GREEN}✓ {message}{Style.RESET_ALL}")
+    print(f"{SUCCESS}✓ {message}{RESET}")
 
 
 def print_error(message: str):
-    """Prints an error message."""
-    print(f"{Fore.RED}✗ {message}{Style.RESET_ALL}")
+    print(f"{ERROR}✗ {message}{RESET}")
 
 
-def print_info(message: str):
-    """Prints an informational message."""
-    print(f"{Fore.BLUE}ℹ {message}{Style.RESET_ALL}")
+def print_warning(message: str):
+    print(f"{WARNING}⚠ {message}{RESET}")
