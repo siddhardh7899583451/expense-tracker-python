@@ -3,6 +3,7 @@ from expense_tracker.storage import CSVStorage
 
 
 class ExpenseManager:
+
     def __init__(self, storage=None):
         self.storage = storage if storage else CSVStorage()
 
@@ -53,9 +54,10 @@ class ExpenseManager:
         return True
 
     def get_monthly_summary(self, month: str) -> dict:
-        """
-        Calculate summary for a given month (YYYY-MM).
-        Returns a dict with month, total, and category breakdown.
+        """Calculate summary for a given month (YYYY-MM).
+
+        Returns a dict with month, total, count, categories, highest, and
+        lowest.
         """
         expenses = self.get_all_expenses()
 
@@ -63,21 +65,33 @@ class ExpenseManager:
         monthly_expenses = [exp for exp in expenses if exp.date.startswith(month)]
 
         if not monthly_expenses:
-            return {"month": month, "total": 0.0, "categories": {}}
+            return {
+                "month": month,
+                "total": 0.0,
+                "count": 0,
+                "categories": {},
+                "highest": None,
+                "lowest": None,
+            }
 
-        total = 0.0
+        total = sum(exp.amount for exp in monthly_expenses)
         categories = {}
 
         for expense in monthly_expenses:
-            total += expense.amount
             categories[expense.category] = (
                 categories.get(expense.category, 0.0) + expense.amount
             )
 
+        highest = max(monthly_expenses, key=lambda e: e.amount)
+        lowest = min(monthly_expenses, key=lambda e: e.amount)
+
         return {
             "month": month,
             "total": total,
+            "count": len(monthly_expenses),
             "categories": categories,
+            "highest": highest,
+            "lowest": lowest,
         }
 
     def update_expense(
