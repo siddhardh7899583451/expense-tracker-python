@@ -19,22 +19,23 @@ def render_welcome_screen():
 
 
 def render_main_menu(stats: dict):
-    """Recommendation #6: Clean dashboard with live stats dict."""
+    """Clean dashboard with live stats dict."""
     clear_screen()
     print(f"""{PRIMARY}═══════════════════════════════════════════════
              💰 EXPENSE TRACKER v2.0
 ═══════════════════════════════════════════════{RESET}
-{BOLD}Today :{RESET} {stats.get('date', '')}
+{BOLD}Today    :{RESET} {stats.get('date', '')}
 {BOLD}Expenses :{RESET} {stats.get('records', 0)}
-{BOLD}Spent :{RESET} ${stats.get('spent', 0.0):,.2f}
+{BOLD}Spent    :{RESET} ${stats.get('spent', 0.0):,.2f}
 {PRIMARY}───────────────────────────────────────────────{RESET}
-  {BOLD}1.{RESET} Add Expense
-  {BOLD}2.{RESET} View Expenses
-  {BOLD}3.{RESET} Search Expenses
-  {BOLD}4.{RESET} Edit Expense
-  {BOLD}5.{RESET} Delete Expense
-  {BOLD}6.{RESET} Monthly Summary
-  {BOLD}7.{RESET} Exit
+  {BOLD}1.{RESET} ➕ Add Expense
+  {BOLD}2.{RESET} 📋 View Expenses
+  {BOLD}3.{RESET} 🔍 Search Expenses
+  {BOLD}4.{RESET} ✏️ Edit Expense
+  {BOLD}5.{RESET} 🗑️ Delete Expense
+  {BOLD}6.{RESET} 📊 Monthly Summary
+  {BOLD}7.{RESET} ❓ Help
+  {BOLD}8.{RESET} 🚪 Exit
 {PRIMARY}═══════════════════════════════════════════════{RESET}""")
 
 
@@ -178,3 +179,30 @@ def render_exit_screen():
         Have a productive day!
 
 ═══════════════════════════════════════════════{RESET}""")
+
+
+def render_help_screen():
+    clear_screen()
+    render_banner("Help & Guidance", icon="❓")
+
+    print(f"{BOLD}1. Add Expense{RESET}")
+    print("   Add a new expense with title, amount, category, and date.\n")
+
+    print(f"{BOLD}2. View Expenses{RESET}")
+    print("   Display all recorded expenses in a formatted table.\n")
+
+    print(f"{BOLD}3. Search Expenses{RESET}")
+    print("   Search by title keyword or category name.\n")
+
+    print(f"{BOLD}4. Edit Expense{RESET}")
+    print("   Modify an existing expense record by its index number.\n")
+
+    print(f"{BOLD}5. Delete Expense{RESET}")
+    print("   Remove an expense record from storage.\n")
+
+    print(f"{BOLD}6. Monthly Summary{RESET}")
+    print("   View monthly totals, category breakdowns, and key statistics.\n")
+
+    print(f"{PRIMARY}───────────────────────────────────────────{RESET}")
+    print(f"{BOLD}📅 Date Format:{RESET} YYYY-MM-DD (e.g., 2026-07-26)")
+    print(f"{PRIMARY}───────────────────────────────────────────{RESET}\n")
