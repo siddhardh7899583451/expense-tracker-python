@@ -182,16 +182,20 @@ python -m black .
 ### Monthly Summary
 
 ---
+## 📐 UML Documentation
 
-## 📐 UML Diagrams
+The project includes complete software design documentation:
 
-The project documentation includes comprehensive architectural diagrams:
+| Diagram | Status | Location |
+|---|---|---|
+| ✅ **Use Case Scenarios** | Completed | `docs/use_case_scenarios.md` |
+| ✅ **Use Case Diagram** | Completed | `docs/use_case_diagram.md` |
+| ✅ **Class Diagram** | Completed | `docs/class_diagram.md` |
+| ✅ **Sequence Diagram** | Completed | `docs/sequence_diagram.md` |
+| ✅ **Architecture Diagram** | Completed | `docs/architecture_diagram.md` |
 
-* [x] **Use Case Scenarios** (`docs/use_case_scenarios.md`)
-* [x] **Use Case Diagram** (`docs/use_case_diagram.md`)
-* [ ] *(Coming Soon)* Class Diagram
-* [ ] *(Coming Soon)* Sequence Diagram
-* [ ] *(Coming Soon)* System Architecture Diagram
+All documentation files and Mermaid source files are available in the `docs/` directory.
+
 
 ### Use Case Diagram
 
