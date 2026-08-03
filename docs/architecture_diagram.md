@@ -1,35 +1,41 @@
-```markdown
 # Architecture Diagram
 
 ```mermaid
 graph TD
-    subgraph Presentation & UI Layer
-        MAIN[main.py Entrypoint]
-        CLI[cli.py Controller]
-        DISP[display.py View Helpers]
-        UI[ui.py Component Wrapper]
-        THEME[theme.py Styling Config]
-    end
 
-    subgraph Business Logic Layer
-        EM[manager.py ExpenseManager]
-        VAL[validators.py Input Sanitizer]
-        MODEL[models.py Expense Domain Model]
-    end
+A[main.py]
 
-    subgraph Persistence Layer
-        CS[storage.py CSVStorage]
-        DATA[(data/expense.csv)]
-    end
+B[cli.py]
 
-    MAIN --> CLI
-    CLI --> DISP
-    CLI --> VAL
-    CLI --> EM
-    
-    DISP --> UI
-    UI --> THEME
+C[display.py]
 
-    EM --> MODEL
-    EM --> CS
-    CS --> DATA
+D[ui.py]
+
+E[theme.py]
+
+F[manager.py]
+
+G[validators.py]
+
+H[storage.py]
+
+I[models.py]
+
+J[(expense.csv)]
+
+A --> B
+
+B --> C
+B --> F
+B --> G
+
+C --> D
+
+D --> E
+
+F --> I
+
+F --> H
+
+H --> J
+```
