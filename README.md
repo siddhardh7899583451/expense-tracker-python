@@ -1,29 +1,41 @@
-```markdown
-# 💰 Expense Tracker Python (CLI v2.0)
+# 💰 Expense Tracker Python (CLI v3.0)
 
-A modular, test-driven Python command-line application built with clean architectural principles. Easily track daily expenses, view monthly analytics, and manage records through a rich interactive terminal interface.
+A modular, test-driven Python command-line application built with clean architectural principles.
+
+Track daily expenses using either SQLite or CSV storage through an interchangeable Strategy Pattern architecture.
 
 ---
 
 ## ✨ Features
 
-- **📊 Dynamic Dashboard:** Real-time metrics including today's date, total records, and total amount spent.
-- **➕ Expense Management:** Full CRUD operations (Add, View, Edit, Delete) with validation safety.
-- **🔍 Search & Filter:** Quick search filtered by title keyword or category.
-- **📈 Monthly Analytics:** Detailed summaries with category breakdowns, average spend, and highest/lowest records.
-- **🛡️ Input Validation & Persistence:** Clean input sanitization backed by structured CSV file storage.
-- **🎨 Rich Terminal UI:** Clean ASCII table layouts, styled banners, and consistent color themes.
-- **🧪 Unit Tested:** Full test suite powered by `pytest` covering business logic, calculations, and updates.
+- 📊 Dashboard
+- ➕ Add Expense
+- ✏️ Edit Expense
+- ❌ Delete Expense
+- 📋 View Expenses
+- 🔍 Search by Title
+- 📂 Search by Category
+- 📈 Monthly Summary
+- 🛡️ Input Validation
+- 💾 SQLite Storage
+- 📄 CSV Storage
+- 🔄 CSV → SQLite Migration
+- 🧪 Unit Tested
+- 🎨 Rich CLI Interface
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠 Tech Stack
 
-- **Language:** Python 3.12+
-- **Testing:** `pytest`
-- **Formatting:** `black`
-- **Storage:** CSV Engine (Abstracted for future DB migration)
-- **VCS:** Git / GitHub
+| Technology | Used |
+|------------|------|
+| Python 3.12 | ✅ |
+| SQLite | ✅ |
+| CSV | ✅ |
+| Pytest | ✅ |
+| Black | ✅ |
+| Git | ✅ |
+| GitHub | ✅ |
 
 ---
 
@@ -32,189 +44,171 @@ A modular, test-driven Python command-line application built with clean architec
 ```text
 expense-tracker-python/
 │
-├── expense_tracker/
-│   ├── cli.py          # Action routing and interactive loop
-│   ├── manager.py      # Core business logic & analytics engine
-│   ├── storage.py      # CSV storage handler
-│   ├── models.py       # Expense data model
-│   ├── validators.py   # Input validation rules
-│   ├── display.py      # Terminal UI layout renderers
-│   ├── ui.py           # Screen helpers, headers & banners
-│   ├── theme.py        # Color and ANSI styling constants
-│   └── constants.py    # Global configurations
+├── database/
+│   └── expense.db (generated locally)
 │
-├── tests/              # Unit test suite
-│   ├── test_manager.py
-│   ├── test_summary.py
-│   ├── test_update.py
-│   ├── test_display.py
-│   └── test_validators.py
+├── expense_tracker/
+│   ├── cli.py
+│   ├── constants.py
+│   ├── database.py
+│   ├── display.py
+│   ├── manager.py
+│   ├── migrate.py
+│   ├── models.py
+│   ├── sqlite_storage.py
+│   ├── storage.py
+│   ├── theme.py
+│   ├── ui.py
+│   └── validators.py
+│
+├── tests/
 │
 ├── docs/
-│   ├── screenshots/    # Application and diagram screenshots
-│   ├── use_case_scenarios.md
-│   └── use_case_diagram.md
 │
-├── main.py             # Entrypoint
+├── CHANGELOG.md
+├── README.md
 ├── requirements.txt
-└── README.md
-
+└── main.py
 ```
-## 🖼️ Screenshots
-
-### Main Menu
-
-![Main Menu](docs/screenshots/main_menu.png)
 
 ---
 
-### Add Expense
+## 🚀 Installation
 
-![Add Expense](docs/screenshots/add_expense.png)
-
----
-
-### View Expenses
-
-![View Expenses](docs/screenshots/view_expenses.png)
-
----
-
-### Search Expense
-
-![Search Expense](docs/screenshots/search_expense.png)
-
----
-
-### Edit Expense
-
-![Edit Expense](docs/screenshots/edit_expense.png)
-
----
-
-### Delete Expense
-
-![Delete Expense](docs/screenshots/delete_expense.png)
-
----
-
-### Monthly Summary
-
-![Monthly Summary](docs/screenshots/monthly_summary.png)
-
----
-
-### Exit Screen
-
-![Exit Screen](docs/screenshots/exit_screen.png)
----
-
-## 🚀 Running the Project
-
-### 1. Clone the Repository
+### Clone Repository
 
 ```bash
-git clone [https://github.com/siddhardh7899583451/expense-tracker-python.git](https://github.com/siddhardh7899583451/expense-tracker-python.git)
+git clone https://github.com/siddhardh7899583451/expense-tracker-python.git
+
 cd expense-tracker-python
-
 ```
 
-### 2. Create a Virtual Environment
+---
 
-```bash
+### Create Virtual Environment
+
+Windows
+
+```cmd
 python -m venv .venv
-
 ```
 
-### 3. Activate the Virtual Environment
-
-**Windows:**
+Activate
 
 ```cmd
 .venv\Scripts\activate
-
 ```
 
-**macOS/Linux:**
+---
 
-```bash
-source .venv/bin/activate
-
-```
-
-### 4. Install Dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
-
 ```
 
-### 5. Run the Application
+---
+
+### Run Application
 
 ```bash
 python main.py
-
 ```
 
-### 6. Run the Test Suite & Formatter
+---
+
+### Run Tests
 
 ```bash
-# Run tests
 python -m pytest
-
-# Format code
-python -m black .
-
 ```
 
 ---
 
-## 🖼️ Screenshots
+### Format Code
 
-### Main Menu
-
----
-
-### View Expenses
+```bash
+python -m black .
+```
 
 ---
 
-### Monthly Summary
+### CSV to SQLite Migration
+
+```bash
+python -m expense_tracker.migrate
+```
 
 ---
+
 ## 📐 UML Documentation
 
-The project includes complete software design documentation:
+| Document | Status |
+|-----------|--------|
+| Use Case Diagram | ✅ |
+| Class Diagram | ✅ |
+| Sequence Diagram | ✅ |
+| Architecture Diagram | ✅ |
 
-| Diagram | Status | Location |
-|---|---|---|
-| ✅ **Use Case Scenarios** | Completed | `docs/use_case_scenarios.md` |
-| ✅ **Use Case Diagram** | Completed | `docs/use_case_diagram.md` |
-| ✅ **Class Diagram** | Completed | `docs/class_diagram.md` |
-| ✅ **Sequence Diagram** | Completed | `docs/sequence_diagram.md` |
-| ✅ **Architecture Diagram** | Completed | `docs/architecture_diagram.md` |
+---
 
-All documentation files and Mermaid source files are available in the `docs/` directory.
+## 📊 Version History
 
+### v1.0
 
-### Use Case Diagram
+- CSV Storage
+- CRUD
+
+### v2.0
+
+- Rich CLI
+- Dashboard
+- Monthly Summary
+
+### v2.1
+
+- UML Documentation
+
+### v3.0
+
+- SQLite
+- Strategy Pattern
+- Migration Utility
 
 ---
 
 ## 🚀 Future Roadmap
 
-* SQLite database integration
-* Flask/FastAPI REST API
-* React web dashboard
-* User authentication
-* Expense charts and visual analytics
-* Docker containerization
-* GitHub Actions CI/CD pipeline
+### v4.0
+
+Flask REST API
+
+### v5.0
+
+Authentication
+
+### v6.0
+
+SQLAlchemy
+
+### v7.0
+
+Docker
+
+### v8.0
+
+CI/CD
+
+### v9.0
+
+Cloud Deployment
+
+### v10.0
+
+React Dashboard
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License.
-
-```
+MIT License

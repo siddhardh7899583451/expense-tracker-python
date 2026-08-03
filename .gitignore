@@ -1,42 +1,59 @@
+# ===========================
 # Python
+# ===========================
 __pycache__/
 *.py[cod]
 *.pyo
 
+# ===========================
 # Virtual Environment
+# ===========================
 .venv/
 venv/
 
+# ===========================
 # IDE
+# ===========================
 .idea/
 .vscode/
 
-# OS
-Thumbs.db
+# ===========================
+# Operating System
+# ===========================
 .DS_Store
+Thumbs.db
 
+# ===========================
 # Logs
+# ===========================
 *.log
 
-# Python build files
+# ===========================
+# Build Files
+# ===========================
 build/
 dist/
 *.egg-info/
 
-# Test cache
+# ===========================
+# Test & Coverage
+# ===========================
 .pytest_cache/
-
-# Coverage
 .coverage
 htmlcov/
 
-# Generated data
+# ===========================
+# Generated Data
+# ===========================
 data/expenses.csv
 
-# Keep the data folder
+# Keep empty data directory
 !data/.gitkeep
 
-# SQLite Database
-database/
+# ===========================
+# SQLite Database Files
+# ===========================
+database/*.db
+database/*.sqlite3
 *.db
 *.sqlite3
