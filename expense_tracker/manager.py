@@ -1,7 +1,6 @@
 from datetime import datetime
 from expense_tracker.models import Expense
 from expense_tracker.sqlite_storage import SQLiteStorage
-from expense_tracker.storage import CSVStorage
 
 
 class ExpenseManager:
