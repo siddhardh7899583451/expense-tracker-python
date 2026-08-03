@@ -1,28 +1,29 @@
-import os
 import sqlite3
+from typing import Optional
 
-# Default path pointing to database/expense.db relative to project root
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "database", "expense.db")
+_MEMORY_CONN: Optional[sqlite3.Connection] = None
 
 
-def get_connection(db_path=None):
-    """Establishes and returns a connection to the SQLite database."""
-    target_path = db_path or DB_PATH
+def get_connection(db_path: Optional[str] = None) -> sqlite3.Connection:
+    global _MEMORY_CONN
 
-    # Create directory if path is a file on disk
-    if target_path != ":memory:":
-        os.makedirs(os.path.dirname(target_path), exist_ok=True)
+    # If testing with :memory:, reuse the same connection so tables persist
+    if db_path == ":memory:":
+        if _MEMORY_CONN is None:
+            _MEMORY_CONN = sqlite3.connect(":memory:")
+            _MEMORY_CONN.row_factory = sqlite3.Row
+        return _MEMORY_CONN
 
-    conn = sqlite3.connect(target_path)
-    conn.row_factory = sqlite3.Row  # Enables dict-like column access
+    path = db_path if db_path else "database/expense.db"
+    conn = sqlite3.connect(path)
+    conn.row_factory = sqlite3.Row
     return conn
 
 
-def init_db(db_path=None):
-    """Initializes the database schema if tables do not exist."""
+def init_db(db_path: Optional[str] = None):
+    """Creates the expenses table if it does not already exist."""
     conn = get_connection(db_path)
     cursor = conn.cursor()
-
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS expenses (
             id TEXT PRIMARY KEY,
@@ -30,13 +31,8 @@ def init_db(db_path=None):
             amount REAL NOT NULL,
             category TEXT NOT NULL,
             date TEXT NOT NULL
-        );
-    """)
-
+        )
+        """)
     conn.commit()
-    conn.close()
-
-
-if __name__ == "__main__":
-    init_db()
-    print(" Database initialized successfully.")
+    if db_path != ":memory:":
+        conn.close()

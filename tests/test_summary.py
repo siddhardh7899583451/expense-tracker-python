@@ -1,10 +1,10 @@
 from expense_tracker.manager import ExpenseManager
-from expense_tracker.storage import CSVStorage
+from expense_tracker.sqlite_storage import SQLiteStorage
 
 
-def test_get_monthly_summary_single_expense(tmp_path):
-    manager = ExpenseManager()
-    manager.storage = CSVStorage(tmp_path / "expenses.csv")
+def test_get_monthly_summary_single_expense():
+    storage = SQLiteStorage(":memory:")
+    manager = ExpenseManager(storage=storage)
 
     manager.add_expense("Coffee", 120.0, "Food", "2026-07-25")
 
@@ -15,9 +15,9 @@ def test_get_monthly_summary_single_expense(tmp_path):
     assert summary["categories"] == {"Food": 120.0}
 
 
-def test_get_monthly_summary_multiple_categories(tmp_path):
-    manager = ExpenseManager()
-    manager.storage = CSVStorage(tmp_path / "expenses.csv")
+def test_get_monthly_summary_multiple_categories():
+    storage = SQLiteStorage(":memory:")
+    manager = ExpenseManager(storage=storage)
 
     manager.add_expense("Coffee", 120.0, "Food", "2026-07-10")
     manager.add_expense("Pizza", 350.0, "Food", "2026-07-15")
@@ -32,9 +32,9 @@ def test_get_monthly_summary_multiple_categories(tmp_path):
     assert "Education" not in summary["categories"]
 
 
-def test_get_monthly_summary_empty(tmp_path):
-    manager = ExpenseManager()
-    manager.storage = CSVStorage(tmp_path / "expenses.csv")
+def test_get_monthly_summary_empty():
+    storage = SQLiteStorage(":memory:")
+    manager = ExpenseManager(storage=storage)
 
     summary = manager.get_monthly_summary("2026-08")
 

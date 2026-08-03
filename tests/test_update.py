@@ -1,9 +1,9 @@
 from expense_tracker.manager import ExpenseManager
-from expense_tracker.storage import CSVStorage
+from expense_tracker.sqlite_storage import SQLiteStorage
 
 
-def test_update_expense_success(tmp_path):
-    storage = CSVStorage(tmp_path / "expenses.csv")
+def test_update_expense_success():
+    storage = SQLiteStorage(":memory:")
     manager = ExpenseManager(storage=storage)
 
     manager.add_expense(
@@ -29,8 +29,8 @@ def test_update_expense_success(tmp_path):
     assert expenses[0].amount == 50
 
 
-def test_update_invalid_expense(tmp_path):
-    storage = CSVStorage(tmp_path / "expenses.csv")
+def test_update_invalid_expense():
+    storage = SQLiteStorage(":memory:")
     manager = ExpenseManager(storage=storage)
 
     assert (

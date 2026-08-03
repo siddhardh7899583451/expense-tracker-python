@@ -1,6 +1,6 @@
 import sqlite3
 from typing import List, Optional
-from expense_tracker.database import get_connection, init_db
+import expense_tracker.database as db
 from expense_tracker.models import Expense
 
 
@@ -8,17 +8,20 @@ class SQLiteStorage:
 
     def __init__(self, db_path: Optional[str] = None):
         self.db_path = db_path
-        init_db(self.db_path)
+        # Reset memory connection for fresh isolated test instances
+        if self.db_path == ":memory:":
+            db._MEMORY_CONN = None
+        db.init_db(self.db_path)
 
-    def load(self) -> List[Expense]:
-        """Fetches all expenses from the database."""
-        conn = get_connection(self.db_path)
+    def find_all(self) -> List[Expense]:
+        conn = db.get_connection(self.db_path)
         cursor = conn.cursor()
         cursor.execute(
             "SELECT id, title, amount, category, date FROM expenses ORDER BY date DESC"
         )
         rows = cursor.fetchall()
-        conn.close()
+        if self.db_path != ":memory:":
+            conn.close()
 
         return [
             Expense(
@@ -31,9 +34,11 @@ class SQLiteStorage:
             for row in rows
         ]
 
+    def load(self) -> List[Expense]:
+        return self.find_all()
+
     def save(self, expense: Expense) -> bool:
-        """Inserts a single expense into SQLite."""
-        conn = get_connection(self.db_path)
+        conn = db.get_connection(self.db_path)
         cursor = conn.cursor()
         try:
             cursor.execute(
@@ -51,31 +56,44 @@ class SQLiteStorage:
         except sqlite3.Error:
             return False
         finally:
-            conn.close()
+            if self.db_path != ":memory:":
+                conn.close()
 
-    def save_all(self, expenses: List[Expense]) -> bool:
-        """Replaces all records in the database with the provided expenses list.
-
-        Used for batch operations like update and delete.
-        """
-        conn = get_connection(self.db_path)
+    def update_expense(self, expense: Expense) -> bool:
+        conn = db.get_connection(self.db_path)
         cursor = conn.cursor()
         try:
-            cursor.execute("DELETE FROM expenses")
-            for expense in expenses:
-                cursor.execute(
-                    "INSERT INTO expenses (id, title, amount, category, date) VALUES (?, ?, ?, ?, ?)",
-                    (
-                        expense.expense_id,
-                        expense.title,
-                        expense.amount,
-                        expense.category,
-                        expense.date,
-                    ),
-                )
+            cursor.execute(
+                """
+                UPDATE expenses
+                SET title = ?, amount = ?, category = ?, date = ?
+                WHERE id = ?
+                """,
+                (
+                    expense.title,
+                    expense.amount,
+                    expense.category,
+                    expense.date,
+                    expense.expense_id,
+                ),
+            )
             conn.commit()
-            return True
+            return cursor.rowcount > 0
         except sqlite3.Error:
             return False
         finally:
-            conn.close()
+            if self.db_path != ":memory:":
+                conn.close()
+
+    def delete_expense(self, expense_id: str) -> bool:
+        conn = db.get_connection(self.db_path)
+        cursor = conn.cursor()
+        try:
+            cursor.execute("DELETE FROM expenses WHERE id = ?", (expense_id,))
+            conn.commit()
+            return cursor.rowcount > 0
+        except sqlite3.Error:
+            return False
+        finally:
+            if self.db_path != ":memory:":
+                conn.close()

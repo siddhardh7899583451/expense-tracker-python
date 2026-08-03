@@ -1,12 +1,10 @@
 from expense_tracker.manager import ExpenseManager
-from expense_tracker.storage import CSVStorage
+from expense_tracker.sqlite_storage import SQLiteStorage
 
 
-def test_delete_expense_success(tmp_path):
-    manager = ExpenseManager()
-    # Pass the custom temp file path into CSVStorage on initialization
-    # so __init__ writes the CSV header properly!
-    manager.storage = CSVStorage(tmp_path / "expenses.csv")
+def test_delete_expense_success():
+    storage = SQLiteStorage(":memory:")
+    manager = ExpenseManager(storage=storage)
 
     manager.add_expense("Coffee", 120.0, "Food", "2026-07-25")
     manager.add_expense("Pizza", 350.0, "Food", "2026-07-25")
@@ -19,9 +17,9 @@ def test_delete_expense_success(tmp_path):
     assert remaining[0].title == "Pizza"
 
 
-def test_delete_expense_invalid_index(tmp_path):
-    manager = ExpenseManager()
-    manager.storage = CSVStorage(tmp_path / "expenses.csv")
+def test_delete_expense_invalid_index():
+    storage = SQLiteStorage(":memory:")
+    manager = ExpenseManager(storage=storage)
 
     manager.add_expense("Coffee", 120.0, "Food", "2026-07-25")
 
@@ -29,8 +27,8 @@ def test_delete_expense_invalid_index(tmp_path):
     assert manager.delete_expense(5) is False
 
 
-def test_delete_from_empty(tmp_path):
-    manager = ExpenseManager()
-    manager.storage = CSVStorage(tmp_path / "expenses.csv")
+def test_delete_from_empty():
+    storage = SQLiteStorage(":memory:")
+    manager = ExpenseManager(storage=storage)
 
     assert manager.delete_expense(0) is False

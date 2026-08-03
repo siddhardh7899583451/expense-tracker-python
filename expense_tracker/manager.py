@@ -40,14 +40,34 @@ class ExpenseManager:
         ]
 
     def delete_expense(self, index: int) -> bool:
-        """Delete an expense by 0-based index."""
+        """Delete an expense by 0-based list index."""
         expenses = self.get_all_expenses()
         if index < 0 or index >= len(expenses):
             return False
 
-        del expenses[index]
-        self.storage.save_all(expenses)
-        return True
+        expense_to_delete = expenses[index]
+        return self.storage.delete_expense(expense_to_delete.expense_id)
+
+    def update_expense(
+        self,
+        index: int,
+        title: str,
+        amount: float,
+        category: str,
+        date: str,
+    ) -> bool:
+        """Update an existing expense by list index."""
+        expenses = self.get_all_expenses()
+        if index < 0 or index >= len(expenses):
+            return False
+
+        expense = expenses[index]
+        expense.title = title
+        expense.amount = amount
+        expense.category = category
+        expense.date = date
+
+        return self.storage.update_expense(expense)
 
     def get_dashboard_stats(self) -> dict:
         """Recommendation #2: Encapsulate dashboard metrics in Manager."""
@@ -93,25 +113,3 @@ class ExpenseManager:
             "highest": highest,
             "lowest": lowest,
         }
-
-    def update_expense(
-        self,
-        index: int,
-        title: str,
-        amount: float,
-        category: str,
-        date: str,
-    ) -> bool:
-        """Update an existing expense by index."""
-        expenses = self.get_all_expenses()
-        if index < 0 or index >= len(expenses):
-            return False
-
-        expense = expenses[index]
-        expense.title = title
-        expense.amount = amount
-        expense.category = category
-        expense.date = date
-
-        self.storage.save_all(expenses)
-        return True
