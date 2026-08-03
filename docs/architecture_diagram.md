@@ -3,25 +3,33 @@
 
 ```mermaid
 graph TD
-    subgraph Presentation Layer
-        UI[User Interface / Rich Terminal]
-        CLI[CLI Entrypoint main.py]
-        Display[Display & Rich Helpers]
+    subgraph Presentation & UI Layer
+        MAIN[main.py Entrypoint]
+        CLI[cli.py Controller]
+        DISP[display.py View Helpers]
+        UI[ui.py Component Wrapper]
+        THEME[theme.py Styling Config]
     end
 
     subgraph Business Logic Layer
-        EM[ExpenseManager]
-        VAL[Validators]
+        EM[manager.py ExpenseManager]
+        VAL[validators.py Input Sanitizer]
+        MODEL[models.py Expense Domain Model]
     end
 
-    subgraph Data Layer
-        CS[CSVStorage]
-        DB[(expense.csv)]
+    subgraph Persistence Layer
+        CS[storage.py CSVStorage]
+        DATA[(data/expense.csv)]
     end
 
-    UI --> CLI
-    CLI --> Display
+    MAIN --> CLI
+    CLI --> DISP
     CLI --> VAL
     CLI --> EM
+    
+    DISP --> UI
+    UI --> THEME
+
+    EM --> MODEL
     EM --> CS
-    CS --> DB
+    CS --> DATA
