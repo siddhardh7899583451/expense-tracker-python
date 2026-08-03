@@ -7,7 +7,7 @@ from expense_tracker.storage import CSVStorage
 class ExpenseManager:
 
     def __init__(self, storage=None):
-        self.storage = storage if storage else CSVStorage()
+        self.storage = storage if storage else SQLiteStorage()
 
     def add_expense(self, title, amount, category, date):
         expense = Expense(
