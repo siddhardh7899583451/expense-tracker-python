@@ -26,7 +26,7 @@ def render_main_menu(stats: dict):
 ═══════════════════════════════════════════════{RESET}
 {BOLD}Today    :{RESET} {stats.get('date', '')}
 {BOLD}Expenses :{RESET} {stats.get('records', 0)}
-{BOLD}Spent    :{RESET} ${stats.get('spent', 0.0):,.2f}
+{BOLD}Spent    :{RESET} ₹{stats.get('spent', 0.0):,.2f}
 {PRIMARY}───────────────────────────────────────────────{RESET}
   {BOLD}1.{RESET} ➕ Add Expense
   {BOLD}2.{RESET} 📋 View Expenses
@@ -84,7 +84,7 @@ def render_table(expenses):
         cat = exp.category if hasattr(exp, "category") else exp.get("category", "")
         date = str(exp.date if hasattr(exp, "date") else exp.get("date", ""))
 
-        table.add_row(str(idx), title, f"${amount:,.2f}", cat, date)
+        table.add_row(str(idx), title, f"₹{amount:,.2f}", cat, date)
 
     console.print(table)
 
@@ -96,8 +96,8 @@ def render_view_expenses_screen(expenses, total_records: int, total_spent: float
     avg_spent = (total_spent / total_records) if total_records > 0 else 0.0
 
     print(f"{BOLD}Total Records   :{RESET} {total_records}")
-    print(f"{BOLD}Total Spent     :{RESET} ${total_spent:,.2f}")
-    print(f"{BOLD}Average Expense :{RESET} ${avg_spent:,.2f}\n")
+    print(f"{BOLD}Total Spent     :{RESET} ₹{total_spent:,.2f}")
+    print(f"{BOLD}Average Expense :{RESET} ₹{avg_spent:,.2f}\n")
 
     render_table(expenses)
 
@@ -109,7 +109,7 @@ def render_delete_confirmation(expense) -> bool:
 
     print(f"{BOLD}Title    :{RESET} {expense.title}")
     print(f"{BOLD}Category :{RESET} {expense.category}")
-    print(f"{BOLD}Amount   :{RESET} ${expense.amount:,.2f}")
+    print(f"{BOLD}Amount   :{RESET} ₹{expense.amount:,.2f}")
     print(f"{BOLD}Date     :{RESET} {expense.date}\n")
 
     print(f"{SECONDARY}Are you sure?{RESET}")
@@ -127,7 +127,7 @@ def render_edit_screen(expense):
 
     print(f"{SECONDARY}── Current Values ──────────────────────────{RESET}")
     print(f"{BOLD}Title    :{RESET} {expense.title}")
-    print(f"{BOLD}Amount   :{RESET} ${expense.amount:,.2f}")
+    print(f"{BOLD}Amount   :{RESET} ₹{expense.amount:,.2f}")
     print(f"{BOLD}Category :{RESET} {expense.category}")
     print(f"{BOLD}Date     :{RESET} {expense.date}")
     print(f"{PRIMARY}───────────────────────────────────────────{RESET}\n")
@@ -149,23 +149,23 @@ def render_monthly_summary(
 
     print(f"{BOLD}Month           :{RESET} {month_name}")
     print(f"{BOLD}Total Expenses  :{RESET} {total_count}")
-    print(f"{BOLD}Total Amount    :{RESET} ${total_amount:,.2f}")
-    print(f"{BOLD}Average Expense :{RESET} ${avg_expense:,.2f}\n")
+    print(f"{BOLD}Total Amount    :{RESET} ₹{total_amount:,.2f}")
+    print(f"{BOLD}Average Expense :{RESET} ₹{avg_expense:,.2f}\n")
 
     if categories:
         print(f"{SECONDARY}── Category Breakdown ──────────────────────{RESET}")
         for cat, amt in categories.items():
-            print(f"{cat.ljust(18)} ${amt:>10,.2f}")
+            print(f"{cat.ljust(18)} ₹{amt:>10,.2f}")
 
     if highest or lowest:
         print(f"\n{PRIMARY}───────────────────────────────────────────{RESET}")
         if highest:
             print(
-                f"{BOLD}Highest Expense :{RESET} {highest.title} (${highest.amount:,.2f})"
+                f"{BOLD}Highest Expense :{RESET} {highest.title} (₹{highest.amount:,.2f})"
             )
         if lowest:
             print(
-                f"{BOLD}Lowest Expense  :{RESET} {lowest.title} (${lowest.amount:,.2f})"
+                f"{BOLD}Lowest Expense  :{RESET} {lowest.title} (₹{lowest.amount:,.2f})"
             )
 
 
